@@ -10,31 +10,35 @@ Streaming fraud detection: Python transaction generator → Kafka → PySpark St
 
 
 
-generator/producer.py ──▶ Kafka (topic: transactions, 6 partitions)
+```
 
-│
+generator/producer.py --> Kafka (topic: transactions, 6 partitions)
 
-▼
+&#x20;                             |
 
-fraud\_job.py (PySpark Structured Streaming)
+&#x20;                             v
 
-\- JSON parsing with explicit schema
+&#x20;             fraud\_job.py (PySpark Structured Streaming)
 
-\- 10-min watermark on event\_time
+&#x20;              - JSON parsing with explicit schema
 
-\- 5-min sliding windows (1-min slide) per card\_id
+&#x20;              - 10-min watermark on event\_time
 
-\- velocity rules: count > 4 OR sum > $400
+&#x20;              - 5-min sliding windows (1-min slide) per card\_id
 
-│
+&#x20;              - velocity rules: count > 4 OR sum > $400
 
-┌────────────┴────────────┐
+&#x20;                             |
 
-▼ ▼
+&#x20;                +------------+------------+
 
-Delta bronze table Delta gold table
+&#x20;                v                         v
 
-(all raw events) (fraud alerts only)
+&#x20;       Delta bronze table          Delta gold table
+
+&#x20;       (all raw events)            (fraud alerts only)
+
+```
 
 
 
